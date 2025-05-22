@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curious Souls Cafe List Randomizer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .selected-item {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen p-4">
+    <div class="bg-white rounded-lg shadow-xl p-8 w-full max-w-md transition-transform hover:scale-105">
+        <div class="flex justify-center mb-6">
+            <img src="https://avatars.githubusercontent.com/u/194744307?v=4" alt="Curious Souls Cafe Logo" class="w-24 h-24 rounded-full border-2 border-purple-500">
+        </div>
+        <h1 class="text-2xl font-semibold text-purple-600 text-center mb-2">Curious Souls Café</h1>
+        <hr class="border-purple-300 mb-4 w-1/2 mx-auto">
+        <h2 class="text-xl font-semibold text-purple-600 text-center mb-4">Topic: Transitions</h2>
+
+        <div class="mb-4">
+            <label for="item-count" class="block text-gray-700 text-sm font-bold mb-2">Number of questions to pick: <span id="total-questions" class="text-gray-500 text-sm"></span></label>
+            <input type="number" id="item-count" value="2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+
+        <div class="mb-4">
+            <p id="random-result" class="text-gray-800 text-center font-medium"></p>
+        </div>
+
+        <button id="randomize-button" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline w-full transition duration-300 ease-in-out mb-6">
+            Get More Questions!
+        </button>
+
+        <div class="mb-4">
+            <label for="search-input" class="block text-gray-700 text-sm font-bold mb-2">Search questions:</label>
+            <input type="text" id="search-input" placeholder="Enter search term..." class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2">
+            <button id="search-button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline w-full transition duration-300 ease-in-out">
+                Search
+            </button>
+        </div>
+
+        <div id="search-results" class="mb-4"></div>
+    </div>
+
+    <script>
+        const itemList = [
+            "Think about a time in your life when you faced a significant change or turning point. What was it like to navigate that transition, and what did you learn about yourself?",
+            "Have you ever felt like you had to let go of an old version of yourself to embrace something new? What was that experience like, and how did it shape your identity?",
+            "What helps you stay grounded when life feels uncertain or unstable? Are there specific habits, people, or beliefs that provide stability?",
+            "Can you recall a seemingly small decision that unexpectedly redirected your life? How did it ripple into larger transitions?",
+            "Have you ever experienced what it feels like to be “in between”—no longer who you were, but not yet who you’re becoming? How do you think people cope with the discomfort of that liminal space?",
+            "How might the practice of questioning your thoughts, assumptions, or opinions help you approach major life changes, such as switching careers, moving to a new place, or starting a new phase of life?",
+            "It’s often said that external changes, like a new job or moving to a new place, don’t necessarily fix deeper struggles. How do you think people navigate the balance between external changes and internal growth?",
+            "When you think about a significant transition you've experienced, how did you initially react to the change? Were you quick to adapt, did you resist, or did you find yourself somewhere in between? What contributed to it?",
+            "Change can sometimes bring about a sense of fear or uncertainty. What are some fears you've faced during transitions, and how have those fears impacted your ability to move forward or make decisions?",
+            "What does “living a meaningful life” mean to you, and how have your ideas about this evolved over time?",
+            "Have you ever felt unsure about your direction or purpose in life? What helped—or might help—you find clarity?",
+            "What role do challenges or struggles play in personal growth? Can you think of a time when a difficult experience became a catalyst for transformation?",
+            "What’s something you once valued deeply but later outgrew? How do you think that shift shaped who you are today?",
+            "How do you think people reconcile the desire for stability with the reality that life is always in flux?",
+            "How can focusing on personal values like curiosity, learning, and adaptability help someone let go of specific outcomes, past decisions, or fixed beliefs during a transition?",
+            "It’s been suggested that reflecting on your life plans regularly—like a “checkup”—can help keep you aligned with your goals and purpose. What kinds of questions could you ask yourself to stay intentional during times of change?",
+            "How can people approach transitions as opportunities for growth and experimentation, rather than striving for a single “perfect” outcome?",
+            "Have you ever found yourself holding onto something familiar (a routine, a situation, a belief) even when it was no longer serving you, simply because it was what you knew? What made it difficult to let go?",
+            "Have you ever felt pressure to live by others’ definitions of success, happiness, or “goodness”? How might someone reclaim their own path in such situations?",
+            "What’s a “rule” or belief you’ve encountered that people sometimes unlearn during transitions? How might freeing oneself from it change their path?",
+            "Can you think of a situation when a transition felt like an act of rebellion—against societal expectations, past versions of oneself, or others’ plans?",
+            "If life were a “slow-motion reboot” (like midlife is sometimes described), what outdated “software” do you think people might want to update?",
+            "How do you think people balance staying true to their values while adapting to life’s inevitable changes?",
+            "Sometimes, people settle into a fixed idea of who they are, closing off other possibilities. How can we actively explore “alternative selves” and broaden our possibilities during times of transition?",
+            "Reflecting on how different circumstances might have shaped us differently can sometimes challenge our assumptions. How might this kind of “what if” thinking help us rethink identities or paths tied to past decisions?",
+            "Taking action and moving in a new direction, even when you're not sure where you're going, is often necessary during a transition. How does taking that initial step compare to waiting for things to change on their own?",
+            "The idea of 'anticipating change' suggests actively preparing for shifts rather than just reacting to them. In what areas of your life could anticipating change help you navigate transitions more smoothly?",
+            "How might significant life changes affect relationships with family, friends, or a community? Can you think of examples where these relationships evolved through change?",
+            "How have acts of service or contributing to something larger than oneself helped people navigate transitions?",
+            "When have you witnessed others supporting someone through change, or when have you supported someone else? What can those moments teach us about connection and interdependence?",
+            "How might recognizing shared human struggles (like loss, doubt, or aging) provide comfort during difficult transitions?",
+            "What role do community, family, or a sense of belonging play in helping people navigate life’s transitions?",
+            "How can we learn from others who have gone through similar transitions? What strategies can we use to seek advice, ask meaningful questions, and truly listen to their insights?",
+            "Building a “challenge network,” or surrounding yourself with people who offer constructive feedback, can help refine your thinking. How might seeking honest input from others help during a transition?",
+            "How important is communicating with others (friends, family, mentors, groups) when you are going through a transition? How can sharing your experiences and hearing others' perspectives help?",
+            "Can imagining or visualizing a positive outcome during a transition make the process easier or more hopeful? How effective do you find this approach to be?",
+            "If someone’s life transition could be compared to a season (e.g., winter’s rest, spring’s rebirth), which season might resonate most, and why?",
+            "What song, poem, or myth do you think resonates with the emotions tied to navigating change? What lessons might it offer about transitions?",
+            "What words or phrases (e.g., “release,” “rebirth,” or “limbo”) seem to capture the essence of transitions? Why might these resonate for people?",
+            "What rituals (e.g., journaling, walks, creating art) might help people honor transitions instead of rushing through them?",
+            "Can you think of a moment of upheaval (like a move, loss, or leap of faith) that revealed a hidden path someone hadn’t seen before?",
+            "Transitions remind us that nothing stays the same. What’s something temporary you’ve learned to appreciate more deeply?",
+            "How might practicing humility, embracing doubt, and staying curious help people navigate the uncertainty and unpredictability of transitions?",
+            "Sometimes, small changes happen gradually before a big transition occurs. Have you ever missed the signs of coming change, only to be surprised later? How might paying attention to subtle shifts prepare you for future transitions?",
+            "Some say that 'nothing gets better until you change'. How much do you believe that your personal attitude or internal approach to change is the biggest factor in successfully navigating a transition?",
+            "Life often involves stepping into the unknown. Can you think of examples where a major change required letting go of certainty? What lessons might that teach?",
+            "How do you think people find patience or resilience during uncertain transitions? Are there examples where “waiting it out” brought clarity or resolution?",
+            "How might someone guard against using “growth” or “self-improvement” as a way to avoid sitting with hard emotions during transitions?",
+            "What excites you about the idea of change, and what do you think might scare people about it? How could those feelings be balanced?",
+            "What do you think people might hope to leave behind as they move into a new phase of life? What might they want to carry forward?",
+            "If you were to write a letter to your past self navigating a major transition, what wisdom would you share? What questions might you ask your future self?",
+            "When thinking about the future, what kind of person do you aspire to become—or imagine others aspiring to become? What changes or transitions might help in getting there?",
+            "How might adopting the mindset of experimenting with “better practices” instead of striving for “best practices” encourage ongoing learning and growth during transitions?",
+            "How important is it to be able to let go of the past—the way things used to be, or what you lost—in order to fully embrace a new situation or find something better?",
+        ];
+
+        const randomizeButton = document.getElementById('randomize-button');
+        const resultDisplay = document.getElementById('random-result');
+        const itemCountInput = document.getElementById('item-count');
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const searchResultsDisplay = document.getElementById('search-results');
+        const totalQuestionsSpan = document.getElementById('total-questions'); // Get the new span element
+
+        // Display total number of questions on load
+        totalQuestionsSpan.textContent = `(Total: ${itemList.length})`;
+
+        function selectUniqueItems(arr, numItems) {
+            if (numItems > arr.length) {
+                return "Number of items to pick cannot be greater than the list length.";
+            }
+
+            let selectedItems = [];
+            let remainingItems = [...arr];
+
+            for (let i = 0; i < numItems; i++) {
+                const randomIndex = Math.floor(Math.random() * remainingItems.length);
+                selectedItems.push(remainingItems[randomIndex]);
+                remainingItems.splice(randomIndex, 1);
+            }
+            return selectedItems;
+        }
+
+        function applyHighlighting(targetElement) {
+            const items = targetElement.querySelectorAll('.item');
+            items.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove the class from any previously selected item in both displays
+                    document.querySelectorAll('.item').forEach(el => el.classList.remove('selected-item'));
+                    // Add the class to the clicked item
+                    this.classList.add('selected-item');
+                });
+            });
+        }
+
+        function displayRandomItems() {
+            const numItemsToPick = parseInt(itemCountInput.value);
+            const result = selectUniqueItems(itemList, numItemsToPick);
+
+            if (typeof result === "string") {
+                resultDisplay.textContent = result;
+            } else {
+                let resultHTML = result.map(item => `<div class="item">${item}</div><hr>`).join('');
+                resultDisplay.innerHTML = resultHTML;
+                searchResultsDisplay.innerHTML = ''; // Clear search results when random items are displayed
+                applyHighlighting(resultDisplay);
+            }
+        }
+
+        function displayFilteredItems() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            const filteredResult = itemList.filter(item => item.toLowerCase().includes(searchTerm));
+
+            if (filteredResult.length === 0) {
+                searchResultsDisplay.textContent = "No questions found matching your search.";
+            } else {
+                let resultHTML = filteredResult.map(item => `<div class="item">${item}</div><hr>`).join('');
+                searchResultsDisplay.innerHTML = resultHTML;
+                resultDisplay.innerHTML = ''; // Clear random results when search results are displayed
+                applyHighlighting(searchResultsDisplay);
+            }
+        }
+
+        displayRandomItems(); // Display random items on initial load
+        randomizeButton.addEventListener('click', displayRandomItems);
+        searchButton.addEventListener('click', displayFilteredItems);
+    </script>
+</body>
+</html>
