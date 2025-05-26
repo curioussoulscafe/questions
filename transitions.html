@@ -12,22 +12,23 @@
         }
         /* This class is for highlighting the original items when clicked to be chosen */
         .item.selected-item {
-            background-color: yellow;
+            background-color: #00f9ff; /* Changed highlight color to #00f9ff */
         }
         /* Styling for the original items to add space */
         .item {
-            margin-bottom: 0.5rem; /* Added margin-bottom for spacing */
+            margin-bottom: 0; /* Changed margin-bottom to 0 for no bottom margin */
+            padding: 0.5rem; /* Added padding to the items */
         }
         /* Styling for the chosen items */
         .chosen-item {
-            padding: 0.5rem;
-            margin-bottom: 0; /* Reduced margin-bottom to zero for less space */
+            padding: 0.5rem; /* Increased padding for more space */
+            margin-bottom: 0; /* Set margin-bottom to 0 for no space between items */
             border-radius: 0.375rem; /* rounded-md */
             cursor: pointer; /* Indicate it's clickable */
         }
         /* Highlight for chosen items when clicked */
         .chosen-item.selected-chosen-item {
-            background-color: yellow;
+            background-color: yellow; /* Changed highlight color to yellow */
         }
     </style>
 </head>
@@ -101,7 +102,7 @@
             "How do you think people balance staying true to their values while adapting to life’s inevitable changes?",
             "Sometimes, people settle into a fixed idea of who they are, closing off other possibilities. How can we actively explore “alternative selves” and broaden our possibilities during times of transition?",
             "Reflecting on how different circumstances might have shaped us differently can sometimes challenge our assumptions. How might this kind of “what if” thinking help us rethink identities or paths tied to past decisions?",
-            "Taking action and moving in a new direction, even when you're not sure where you're going, is often necessary during a transition. How does taking that initial step compare to waiting for things to change on their own?",
+            "Taking action and moving in a new direction, even when you're not sure where you're going, is1 often necessary during a transition. How does taking that initial step compare to waiting for things to change on their own?",
             "The idea of 'anticipating change' suggests actively preparing for shifts rather than just reacting to them. In what areas of your life could anticipating change help you navigate transitions more smoothly?",
             "How might significant life changes affect relationships with family, friends, or a community? Can you think of examples where these relationships evolved through change?",
             "How have acts of service or contributing to something larger than oneself helped people navigate transitions?",
@@ -123,8 +124,6 @@
             "Some say that 'nothing gets better until you change'. How much do you believe that your personal attitude or internal approach to change is the biggest factor in successfully navigating a transition?",
             "Life often involves stepping into the unknown. Can you think of examples where a major change required letting go of certainty? What lessons might that teach?",
             "How do you think people find patience or resilience during uncertain transitions?",
-            "How might someone guard against using “growth” or “self-improvement” as a way to avoid sitting with hard emotions during transitions?",
-            "What excites you about the idea of change, and what do you think might scare people about it? How could those feelings be balanced?",
             "What do you think people might hope to leave behind as they move into a new phase of life? What might they want to carry forward?",
             "If you were to write a letter to your past self navigating a major transition, what wisdom would you share? What questions might you ask your future self?",
             "When thinking about the future, what kind of person do you aspire to become—or imagine others aspiring to become? What changes or transitions might help in getting there?",
@@ -147,6 +146,16 @@
 
         // Display total number of questions on load
         totalQuestionsSpan.textContent = `(Total: ${itemList.length})`;
+
+        // Function to update the "Clear Saved Questions" button text
+        function updateClearButtonText() {
+            const highlightedItems = chosenQuestionsDisplay.querySelectorAll('.chosen-item.selected-chosen-item');
+            if (highlightedItems.length > 0) {
+                clearChosenButton.textContent = "Clear Selected Questions";
+            } else {
+                clearChosenButton.textContent = "Clear Saved Questions";
+            }
+        }
 
         function selectUniqueItems(arr, numItems) {
             // If the requested number of items is greater than available, or if available pool is empty, reset pool
@@ -176,13 +185,17 @@
                 item.addEventListener('click', function() {
                     const questionText = this.textContent;
 
-                    // Remove existing highlighting from all items in the current display area
-                    targetElement.querySelectorAll('.item').forEach(el => el.classList.remove('selected-item'));
-                    // Apply highlighting to the clicked item in its original display area
-                    this.classList.add('selected-item');
-
-                    // Add to chosen questions
-                    addChosenQuestion(questionText);
+                    // Check if the item is already selected
+                    if (this.classList.contains('selected-item')) {
+                        // If already selected, unhighlight it
+                        this.classList.remove('selected-item');
+                    } else {
+                        // If not selected, remove highlight from others and highlight this one
+                        targetElement.querySelectorAll('.item').forEach(el => el.classList.remove('selected-item'));
+                        this.classList.add('selected-item');
+                        // Add to chosen questions only when newly highlighted
+                        addChosenQuestion(questionText);
+                    }
                 });
             });
         }
@@ -198,17 +211,16 @@
 
                 // Add click listener for highlighting chosen items
                 chosenItemDiv.addEventListener('click', function() {
-                    // Remove existing highlighting from all chosen items
-                    chosenQuestionsDisplay.querySelectorAll('.chosen-item').forEach(el => el.classList.remove('selected-chosen-item'));
-                    // Apply highlighting to the clicked chosen item
-                    this.classList.add('selected-chosen-item');
+                    // Toggle the highlight class on the clicked chosen item
+                    this.classList.toggle('selected-chosen-item');
+                    updateClearButtonText(); // Update button text after toggling highlight
                 });
 
                 // Add <hr> before the chosen item, but not if it's the first item being added
                 const currentChosenItemCount = Array.from(chosenQuestionsDisplay.children).filter(el => el.tagName === 'DIV').length;
                 if (currentChosenItemCount > 0) { // If there's at least one item before this new one
                     const hr = document.createElement('hr');
-                    hr.classList.add('border-gray-200', 'my-0'); // Reverted to my-0 for less space
+                    hr.classList.add('border-gray-200', 'my-1'); // Changed my-2 to my-1
                     chosenQuestionsDisplay.insertBefore(hr, chosenItemDiv); // Insert HR before the new item
                 }
 
@@ -219,6 +231,7 @@
                     chosenQuestionsDisplay.removeChild(placeholder);
                 }
             }
+            updateClearButtonText(); // Update button text after adding a new question
         }
 
         function displayRandomItems() {
@@ -230,7 +243,7 @@
             } else {
                 // Map items to div elements, then join with hr, ensuring no trailing hr
                 let itemDivs = result.map(item => `<div class="item">${item}</div>`);
-                let resultHTML = itemDivs.join('<hr class="border-gray-200 my-2">');
+                let resultHTML = itemDivs.join('<hr class="border-gray-200 my-1">'); /* Changed my-2 to my-1 */
                 resultDisplay.innerHTML = resultHTML;
                 addHighlightingAndChooseLogic(resultDisplay);
             }
@@ -254,7 +267,7 @@
             } else {
                 // Map items to div elements, then join with hr, ensuring no trailing hr
                 let itemDivs = filteredResult.map(item => `<div class="item">${item}</div>`);
-                let resultHTML = itemDivs.join('<hr class="border-gray-200 my-2">');
+                let resultHTML = itemDivs.join('<hr class="border-gray-200 my-1">'); /* Changed my-2 to my-1 */
                 searchResultsDisplay.innerHTML = resultHTML;
                 addHighlightingAndChooseLogic(searchResultsDisplay);
             }
@@ -262,9 +275,37 @@
             searchButton.textContent = "Search / Clear Search"; // Change button text after a search
         }
 
-        // Function to clear chosen questions
+        // Function to clear saved questions based on highlight or clear all
         clearChosenButton.addEventListener('click', function() {
-            chosenQuestionsDisplay.innerHTML = `<p class="text-gray-500 text-sm">Click on a question above to add it here.</p>`;
+            const highlightedItems = chosenQuestionsDisplay.querySelectorAll('.chosen-item.selected-chosen-item');
+
+            if (highlightedItems.length > 0) {
+                // Clear only highlighted items
+                highlightedItems.forEach(item => {
+                    const prevSibling = item.previousElementSibling;
+                    // If there's a previous sibling and it's an HR, remove it
+                    if (prevSibling && prevSibling.tagName === 'HR') {
+                        chosenQuestionsDisplay.removeChild(prevSibling);
+                    }
+                    chosenQuestionsDisplay.removeChild(item);
+                });
+
+                // After removal, check if the display is now empty of actual questions
+                const remainingQuestionDivs = chosenQuestionsDisplay.querySelectorAll('.chosen-item');
+                if (remainingQuestionDivs.length === 0) {
+                    chosenQuestionsDisplay.innerHTML = `<p class="text-gray-500 text-sm">Click on a question above to add it here.</p>`;
+                } else {
+                    // Further cleanup: if the very first element is now an HR (because the first item was removed), remove that HR
+                    if (chosenQuestionsDisplay.firstChild && chosenQuestionsDisplay.firstChild.tagName === 'HR') {
+                        chosenQuestionsDisplay.removeChild(chosenQuestionsDisplay.firstChild);
+                    }
+                }
+
+            } else {
+                // Clear all items if none are highlighted
+                chosenQuestionsDisplay.innerHTML = `<p class="text-gray-500 text-sm">Click on a question above to add it here.</p>`;
+            }
+            updateClearButtonText(); // Update button text after clearing
         });
 
         displayRandomItems(); // Display random items on initial load
@@ -276,6 +317,8 @@
                 displayFilteredItems();
             }
         });
+
+        updateClearButtonText(); // Initial call to set the correct button text on load
     </script>
 </body>
 </html>
