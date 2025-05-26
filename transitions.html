@@ -30,6 +30,25 @@
         .chosen-item.selected-chosen-item {
             background-color: yellow; /* Changed highlight color to yellow */
         }
+
+        /* Styles for the back-to-top button */
+        #back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #6b46c1; /* Purple-500 */
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 9999px; /* Full rounded */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            display: none; /* Hidden by default */
+            transition: opacity 0.3s ease-in-out;
+            z-index: 1000; /* Ensure it's above other content */
+        }
+        #back-to-top:hover {
+            background-color: #805ad5; /* Purple-600 */
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex justify-center items-center min-h-screen p-4">
@@ -67,13 +86,17 @@
         <div class="mt-8 pt-4 border-t border-gray-300">
             <h3 class="text-xl font-semibold text-purple-600 mb-4">Saved Questions:</h3>
             <div id="chosen-questions-display" class="text-gray-800 text-left">
-                <p class="text-gray-500 text-sm">Click on a question above to add it here.</p>
+                <p class="text-gray-500 text-sm">Highlight (tap or click) a question above to add it here, or tap/click again to remove it.</p>
             </div>
             <button id="clear-chosen-button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline w-full mt-4 transition duration-300 ease-in-out">
                 Clear Saved Questions
             </button>
         </div>
     </div>
+
+    <button id="back-to-top" title="Back to Top">
+        &#9650; Top
+    </button>
 
     <script>
         const itemList = [
@@ -83,27 +106,27 @@
             "Can you recall a seemingly small decision that unexpectedly redirected your life? How did it ripple into larger transitions?",
             "Have you ever experienced what it feels like to be “in between”—no longer who you were, but not yet who you’re becoming? How do you think people cope with the discomfort of that liminal space?",
             "How might the practice of questioning your thoughts, assumptions, or opinions help you approach major life changes, such as switching careers, moving to a new place, or starting a new phase of life?",
-            "It’s often said that external changes, like a new job or moving to a new place, don’t necessarily fix deeper struggles. How do you think people navigate the balance between external changes and internal growth?",
-            "When you think about a significant transition you've experienced, how did you initially react to the change? Were you quick to adapt, did you resist, or did you find yourself somewhere in between? What contributed to it?",
-            "Change can sometimes bring about a sense of fear or uncertainty. What are some fears you've faced during transitions, and how have those fears impacted your ability to move forward or make decisions?",
+            "It\'s often said that external changes, like a new job or moving to a new place, don\'t necessarily fix deeper struggles. How do you think people navigate the balance between external changes and internal growth?",
+            "When you think about a significant transition you\'ve experienced, how did you initially react to the change? Were you quick to adapt, did you resist, or did you find yourself somewhere in between? What contributed to it?",
+            "Change can sometimes bring about a sense of fear or uncertainty. What are some fears you\'ve faced during transitions, and how have those fears impacted your ability to move forward or make decisions?",
             "What does “living a meaningful life” mean to you, and how have your ideas about this evolved over time?",
             "Have you ever felt unsure about your direction or purpose in life? What helped—or might help—you find clarity?",
             "What role do challenges or struggles play in personal growth? Can you think of a time when a difficult experience became a catalyst for transformation?",
-            "What’s something you once valued deeply but later outgrew? How do you think that shift shaped who you are today?",
+            "What\'s something you once valued deeply but later outgrew? How do you think that shift shaped who you are today?",
             "How do you think people reconcile the desire for stability with the reality that life is always in flux?",
             "How can focusing on personal values like curiosity, learning, and adaptability help someone let go of specific outcomes, past decisions, or fixed beliefs during a transition?",
-            "It’s been suggested that reflecting on your life plans regularly—like a “checkup”—can help keep you aligned with your goals and purpose. What kinds of questions could you ask yourself to stay intentional during times of change?",
+            "It\'s been suggested that reflecting on your life plans regularly—like a “checkup”—can help keep you aligned with your goals and purpose. What kinds of questions could you ask yourself to stay intentional during times of change?",
             "How can people approach transitions as opportunities for growth and experimentation, rather than striving for a single “perfect” outcome?",
             "Have you ever found yourself holding onto something familiar (a routine, a situation, a belief) even when it was no longer serving you, simply because it was what you knew? What made it difficult to let go?",
             "Have you ever felt pressure to live by others’ definitions of success, happiness, or “goodness”? How might someone reclaim their own path in such situations?",
-            "What’s a “rule” or belief you’ve encountered that people sometimes unlearn during transitions? How might freeing oneself from it change their path?",
+            "What\'s a “rule” or belief you\'ve encountered that people sometimes unlearn during transitions? How might freeing oneself from it change their path?",
             "Can you think of a situation when a transition felt like an act of rebellion—against societal expectations, past versions of oneself, or others’ plans?",
             "If life were a “slow-motion reboot” (like midlife is sometimes described), what outdated “software” do you think people might want to update?",
             "How do you think people balance staying true to their values while adapting to life’s inevitable changes?",
             "Sometimes, people settle into a fixed idea of who they are, closing off other possibilities. How can we actively explore “alternative selves” and broaden our possibilities during times of transition?",
             "Reflecting on how different circumstances might have shaped us differently can sometimes challenge our assumptions. How might this kind of “what if” thinking help us rethink identities or paths tied to past decisions?",
-            "Taking action and moving in a new direction, even when you're not sure where you're going, is often necessary during a transition. How does taking that initial step compare to waiting for things to change on their own?",
-            "The idea of 'anticipating change' suggests actively preparing for shifts rather than just reacting to them. In what areas of your life could anticipating change help you navigate transitions more smoothly?",
+            "Taking action and moving in a new direction, even when you\'re not sure where you\'re going, is often necessary during a transition. How does taking that initial step compare to waiting for things to change on their own?",
+            "The idea of \'anticipating change\' suggests actively preparing for shifts rather than just reacting to them. In what areas of your life could anticipating change help you navigate transitions more smoothly?",
             "How might significant life changes affect relationships with family, friends, or a community? Can you think of examples where these relationships evolved through change?",
             "How have acts of service or contributing to something larger than oneself helped people navigate transitions?",
             "When have you witnessed others supporting someone through change, or when have you supported someone else? What can those moments teach us about connection and interdependence?",
@@ -111,17 +134,17 @@
             "What role do community, family, or a sense of belonging play in helping people navigate life’s transitions?",
             "How can we learn from others who have gone through similar transitions? What strategies can we use to seek advice, ask meaningful questions, and truly listen to their insights?",
             "Building a “challenge network,” or surrounding yourself with people who offer constructive feedback, can help refine your thinking. How might seeking honest input from others help during a transition?",
-            "How important is communicating with others (friends, family, mentors, groups) when you are going through a transition? How can sharing your experiences and hearing others' perspectives help?",
+            "How important is communicating with others (friends, family, mentors, groups) when you are going through a transition? How can sharing your experiences and hearing others\' perspectives help?",
             "Can imagining or visualizing a positive outcome during a transition make the process easier or more hopeful? How effective do you find this approach to be?",
             "If someone’s life transition could be compared to a season (e.g., winter’s rest, spring’s rebirth), which season might resonate most, and why?",
             "What song, poem, or myth do you think resonates with the emotions tied to navigating change? What lessons might it offer about transitions?",
             "What words or phrases (e.g., “release,” “rebirth,” or “limbo”) seem to capture the essence of transitions? Why might these resonate for people?",
             "What rituals (e.g., journaling, walks, creating art) might help people honor transitions instead of rushing through them?",
-            "Can you think of a moment of upheaval (like a move, loss, or leap of faith) that revealed a hidden path someone hadn’t seen before?",
-            "Transitions remind us that nothing stays the same. What’s something temporary you’ve learned to appreciate more deeply?",
+            "Can you think of a moment of upheaval (like a move, loss, or leap of faith) that revealed a hidden path someone hadn\'t seen before?",
+            "Transitions remind us that nothing stays the same. What\'s something temporary you\'ve learned to appreciate more deeply?",
             "How might practicing humility, embracing doubt, and staying curious help people navigate the uncertainty and unpredictability of transitions?",
             "Sometimes, small changes happen gradually before a big transition occurs. Have you ever missed the signs of coming change, only to be surprised later? How might paying attention to subtle shifts prepare you for future transitions?",
-            "Some say that 'nothing gets better until you change'. How much do you believe that your personal attitude or internal approach to change is the biggest factor in successfully navigating a transition?",
+            "Some say that \'nothing gets better until you change\'. How much do you believe that your personal attitude or internal approach to change is the biggest factor in successfully navigating a transition?",
             "Life often involves stepping into the unknown. Can you think of examples where a major change required letting go of certainty? What lessons might that teach?",
             "How do you think people find patience or resilience during uncertain transitions? Are there examples where “waiting it out” brought clarity or resolution?",
             "How might someone guard against using “growth” or “self-improvement” as a way to avoid sitting with hard emotions during transitions?",
@@ -142,6 +165,7 @@
         const totalQuestionsSpan = document.getElementById('total-questions');
         const chosenQuestionsDisplay = document.getElementById('chosen-questions-display');
         const clearChosenButton = document.getElementById('clear-chosen-button');
+        const backToTopButton = document.getElementById('back-to-top');
 
         let lastSearchTerm = ""; // Variable to store the last search term
         let availableRandomItems = [...itemList]; // Initialize available items for random selection
@@ -187,16 +211,15 @@
                 item.addEventListener('click', function() {
                     const questionText = this.textContent;
 
-                    // Check if the item is already selected
+                    // Toggle the selected-item class
+                    this.classList.toggle('selected-item');
+
+                    // If the item is now selected, add it to chosen questions
                     if (this.classList.contains('selected-item')) {
-                        // If already selected, unhighlight it
-                        this.classList.remove('selected-item');
-                    } else {
-                        // If not selected, remove highlight from others and highlight this one
-                        targetElement.querySelectorAll('.item').forEach(el => el.classList.remove('selected-item'));
-                        this.classList.add('selected-item');
-                        // Add to chosen questions only when newly highlighted
                         addChosenQuestion(questionText);
+                    } else {
+                        // If the item is now unselected, remove it from chosen questions
+                        removeChosenQuestion(questionText);
                     }
                 });
             });
@@ -222,7 +245,7 @@
                 const currentChosenItemCount = Array.from(chosenQuestionsDisplay.children).filter(el => el.tagName === 'DIV').length;
                 if (currentChosenItemCount > 0) { // If there's at least one item before this new one
                     const hr = document.createElement('hr');
-                    hr.classList.add('border-gray-200', 'my-1'); // Changed my-2 to my-1
+                    hr.classList.add('border-gray-200', 'my-1');
                     chosenQuestionsDisplay.insertBefore(hr, chosenItemDiv); // Insert HR before the new item
                 }
 
@@ -236,6 +259,32 @@
             updateClearButtonText(); // Update button text after adding a new question
         }
 
+        function removeChosenQuestion(questionText) {
+            const chosenItems = chosenQuestionsDisplay.querySelectorAll('.chosen-item');
+            chosenItems.forEach(item => {
+                if (item.textContent === questionText) {
+                    const prevSibling = item.previousElementSibling;
+                    if (prevSibling && prevSibling.tagName === 'HR') {
+                        chosenQuestionsDisplay.removeChild(prevSibling);
+                    }
+                    chosenQuestionsDisplay.removeChild(item);
+                }
+            });
+
+            // If no chosen questions remain, display the placeholder
+            const remainingQuestionDivs = chosenQuestionsDisplay.querySelectorAll('.chosen-item');
+            if (remainingQuestionDivs.length === 0) {
+                chosenQuestionsDisplay.innerHTML = `<p class="text-gray-500 text-sm">Highlight (tap or click) a question above to add it here, or tap/click again to remove it.</p>`;
+            } else {
+                // Ensure no leading HR if the first item was removed
+                if (chosenQuestionsDisplay.firstChild && chosenQuestionsDisplay.firstChild.tagName === 'HR') {
+                    chosenQuestionsDisplay.removeChild(chosenQuestionsDisplay.firstChild);
+                }
+            }
+            updateClearButtonText();
+        }
+
+
         function displayRandomItems() {
             const numItemsToPick = parseInt(itemCountInput.value);
             const result = selectUniqueItems(itemList, numItemsToPick); // Now uses the updated selectUniqueItems
@@ -245,7 +294,7 @@
             } else {
                 // Map items to div elements, then join with hr, ensuring no trailing hr
                 let itemDivs = result.map(item => `<div class="item">${item}</div>`);
-                let resultHTML = itemDivs.join('<hr class="border-gray-200 my-1">'); /* Changed my-2 to my-1 */
+                let resultHTML = itemDivs.join('<hr class="border-gray-200 my-1">');
                 resultDisplay.innerHTML = resultHTML;
                 addHighlightingAndChooseLogic(resultDisplay);
             }
@@ -269,7 +318,7 @@
             } else {
                 // Map items to div elements, then join with hr, ensuring no trailing hr
                 let itemDivs = filteredResult.map(item => `<div class="item">${item}</div>`);
-                let resultHTML = itemDivs.join('<hr class="border-gray-200 my-1">'); /* Changed my-2 to my-1 */
+                let resultHTML = itemDivs.join('<hr class="border-gray-200 my-1">');
                 searchResultsDisplay.innerHTML = resultHTML;
                 addHighlightingAndChooseLogic(searchResultsDisplay);
             }
@@ -295,7 +344,7 @@
                 // After removal, check if the display is now empty of actual questions
                 const remainingQuestionDivs = chosenQuestionsDisplay.querySelectorAll('.chosen-item');
                 if (remainingQuestionDivs.length === 0) {
-                    chosenQuestionsDisplay.innerHTML = `<p class="text-gray-500 text-sm">Click on a question above to add it here.</p>`;
+                    chosenQuestionsDisplay.innerHTML = `<p class="text-gray-500 text-sm">Highlight (tap or click) a question above to add it here, or tap/click again to remove it.</p>`;
                 } else {
                     // Further cleanup: if the very first element is now an HR (because the first item was removed), remove that HR
                     if (chosenQuestionsDisplay.firstChild && chosenQuestionsDisplay.firstChild.tagName === 'HR') {
@@ -305,10 +354,27 @@
 
             } else {
                 // Clear all items if none are highlighted
-                chosenQuestionsDisplay.innerHTML = `<p class="text-gray-500 text-sm">Click on a question above to add it here.</p>`;
+                chosenQuestionsDisplay.innerHTML = `<p class="text-gray-500 text-sm">Highlight (tap or click) a question above to add it here, or tap/click again to remove it.</p>`;
             }
             updateClearButtonText(); // Update button text after clearing
         });
+
+        // Back to Top button functionality
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 200) { // Show button after scrolling 200px
+                backToTopButton.style.display = 'block';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' // Smooth scroll to top
+            });
+        });
+
 
         displayRandomItems(); // Display random items on initial load
         randomizeButton.addEventListener('click', displayRandomItems);
