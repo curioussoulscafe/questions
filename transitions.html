@@ -10,42 +10,51 @@
         body {
             font-family: 'Inter', sans-serif;
         }
-        /* Default styling for all question items */
-        .item, .chosen-item {
-            margin-bottom: 0.5rem; /* Default space between items */
-            padding: 1rem; /* Default padding */
-            font-size: 1.25rem; /* Default font size */
+        /* Styling for the original items to add space */
+        .item {
+            margin-bottom: 0.5rem; /* Increased margin-bottom for more space between items */
+            padding: 0.75rem; /* Slightly less padding than original 1rem */
+            font-size: 1.25rem; /* Default font size is now larger */
             background-color: #f8fafc; /* Light background color to make them stand out */
             border: 1px solid #e2e8f0; /* Subtle border */
             border-radius: 0.375rem; /* Rounded corners */
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
-            transition: all 0.2s ease-in-out; /* Smooth transition for all changes */
+            transition: all 0.2s ease-in-out; /* Smooth transition for selection */
             cursor: pointer; /* Indicate it's clickable */
-            box-sizing: border-box; /* Include padding and border in the element's total width and height */
         }
-
-        /* Styling for items when hovered (only shadow, no enlargement) */
-        .item:hover, .chosen-item:hover {
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* More prominent shadow on hover */
-        }
+        /* Removed .item:hover styles as per request */
 
         /* This class is for highlighting the original items when clicked to be chosen */
         .item.selected-item {
             background-color: #00f9ff; /* Changed highlight color to #00f9ff */
-            padding: 2rem; /* Enlarge padding on selection */
-            font-size: 1.6rem; /* Enlarge font size on selection */
-            margin-bottom: 2rem; /* Increase margin to prevent overlap when enlarged */
+            padding: 1rem; /* Slightly larger padding on selection (was 1.25rem) */
+            font-size: 1.35rem; /* Slightly larger font size on selection */
+            margin-bottom: 1rem; /* Adjusted margin to prevent overlap when enlarged */
+            transform: scale(1.05); /* Slightly enlarge when selected */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* More prominent shadow when selected */
-            /* Removed transform: scale() to prevent visual-only scaling issues */
         }
+        /* Styling for the chosen items */
+        .chosen-item {
+            margin-bottom: 0.5rem; /* Increased margin-bottom for more space between items */
+            padding: 0.75rem; /* Slightly less padding than original 1rem */
+            font-size: 1.25rem; /* Default font size is now larger */
+            background-color: #f8fafc; /* Light background color to make them stand out */
+            border: 1px solid #e2e8f0; /* Subtle border */
+            border-radius: 0.375rem; /* Rounded corners */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+            transition: all 0.2s ease-in-out; /* Smooth transition for selection */
+            cursor: pointer; /* Indicate it's clickable */
+        }
+        /* Removed .chosen-item:hover styles as per request */
+
         /* Highlight for chosen items when clicked */
         .chosen-item.selected-chosen-item {
             background-color: yellow; /* Changed highlight color to yellow */
-            padding: 2rem; /* Enlarge padding on selection */
-            font-size: 1.6rem; /* Enlarge font size on selection */
-            margin-bottom: 2rem; /* Increase margin to prevent overlap when enlarged */
+            padding: 1rem; /* Slightly larger padding on selection (was 1.25rem) */
+            font-size: 1.35rem; /* Slightly larger font size on selection */
+            margin-bottom: 1rem; /* Adjusted margin to prevent overlap when enlarged */
+            transform: scale(1.05); /* Slightly enlarge when selected */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* More prominent shadow when selected */
-            /* Removed transform: scale() to prevent visual-only scaling issues */
         }
 
         /* Styles for the back-to-top button */
