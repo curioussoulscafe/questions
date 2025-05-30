@@ -29,8 +29,7 @@
         /* This class is for highlighting the original items when clicked to be chosen */
         .item.selected-item {
             background-color: #00f9ff; /* Changed highlight color to #00f9ff */
-            transform: scale(1.15); /* Keep enlarged when selected */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Keep prominent shadow when selected */
+            /* Removed transform and box-shadow to ensure enlargement only on hover/active */
         }
         /* Styling for the chosen items */
         .chosen-item {
@@ -51,8 +50,7 @@
         /* Highlight for chosen items when clicked */
         .chosen-item.selected-chosen-item {
             background-color: yellow; /* Changed highlight color to yellow */
-            transform: scale(1.15); /* Keep enlarged when selected */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Keep prominent shadow when selected */
+            /* Removed transform and box-shadow to ensure enlargement only on hover/active */
         }
 
         /* Styles for the back-to-top button */
