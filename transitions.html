@@ -182,7 +182,7 @@
 
         const randomizeButton = document.getElementById('randomize-button');
         const resultDisplay = document.getElementById('random-result');
-        const itemCountInput = document.getElementById('item-count');
+    const itemCountInput = document.getElementById('item-count');
         const searchInput = document.getElementById('search-input');
         const searchButton = document.getElementById('search-button');
         const searchResultsDisplay = document.getElementById('search-results');
@@ -265,13 +265,13 @@
                     updateClearButtonText(); // Update button text after toggling highlight
                 });
 
-                // Add <hr> before the chosen item, but not if it's the first item being added
-                const currentChosenItemCount = Array.from(chosenQuestionsDisplay.children).filter(el => el.tagName === 'DIV').length;
-                if (currentChosenItemCount > 0) { // If there's at least one item before this new one
-                    const hr = document.createElement('hr');
-                    hr.classList.add('border-gray-200', 'my-1');
-                    chosenQuestionsDisplay.insertBefore(hr, chosenItemDiv); // Insert HR before the new item
-                }
+                // Removed the logic to add <hr> before the chosen item
+                // const currentChosenItemCount = Array.from(chosenQuestionsDisplay.children).filter(el => el.tagName === 'DIV').length;
+                // if (currentChosenItemCount > 0) { // If there's at least one item before this new one
+                //     const hr = document.createElement('hr');
+                //     hr.classList.add('border-gray-200', 'my-1');
+                //     chosenQuestionsDisplay.insertBefore(hr, chosenItemDiv); // Insert HR before the new item
+                // }
 
 
                 // Remove the initial placeholder text if present
@@ -287,10 +287,11 @@
             const chosenItems = chosenQuestionsDisplay.querySelectorAll('.chosen-item');
             chosenItems.forEach(item => {
                 if (item.textContent === questionText) {
-                    const prevSibling = item.previousElementSibling;
-                    if (prevSibling && prevSibling.tagName === 'HR') {
-                        chosenQuestionsDisplay.removeChild(prevSibling);
-                    }
+                    // Removed the logic to remove previous sibling HR
+                    // const prevSibling = item.previousElementSibling;
+                    // if (prevSibling && prevSibling.tagName === 'HR') {
+                    //     chosenQuestionsDisplay.removeChild(prevSibling);
+                    // }
                     chosenQuestionsDisplay.removeChild(item);
                 }
             });
@@ -300,7 +301,7 @@
             if (remainingQuestionDivs.length === 0) {
                 chosenQuestionsDisplay.innerHTML = `<p class="text-gray-500 text-sm">Highlight (tap or click) a question above to add it here, or tap/click again to remove it.</p>`;
             } else {
-                // Ensure no leading HR if the first item was removed
+                // This part is still relevant if there were existing HRs from before the change
                 if (chosenQuestionsDisplay.firstChild && chosenQuestionsDisplay.firstChild.tagName === 'HR') {
                     chosenQuestionsDisplay.removeChild(chosenQuestionsDisplay.firstChild);
                 }
@@ -316,9 +317,9 @@
             if (typeof result === "string") {
                 resultDisplay.textContent = result;
             } else {
-                // Map items to div elements, then join with hr, ensuring no trailing hr
+                // Map items to div elements, then join without hr
                 let itemDivs = result.map(item => `<div class="item">${item}</div>`);
-                let resultHTML = itemDivs.join('<hr class="border-gray-200 my-1">');
+                let resultHTML = itemDivs.join(''); // Removed <hr>
                 resultDisplay.innerHTML = resultHTML;
                 addHighlightingAndChooseLogic(resultDisplay);
             }
@@ -340,9 +341,9 @@
             if (filteredResult.length === 0) {
                 searchResultsDisplay.innerHTML = `<p class="text-gray-500 text-sm">No questions found matching your search.</p>`;
             } else {
-                // Map items to div elements, then join with hr, ensuring no trailing hr
+                // Map items to div elements, then join without hr
                 let itemDivs = filteredResult.map(item => `<div class="item">${item}</div>`);
-                let resultHTML = itemDivs.join('<hr class="border-gray-200 my-1">');
+                let resultHTML = itemDivs.join(''); // Removed <hr>
                 searchResultsDisplay.innerHTML = resultHTML;
                 addHighlightingAndChooseLogic(searchResultsDisplay);
             }
@@ -357,11 +358,7 @@
             if (highlightedItems.length > 0) {
                 // Clear only highlighted items
                 highlightedItems.forEach(item => {
-                    const prevSibling = item.previousElementSibling;
-                    // If there's a previous sibling and it's an HR, remove it
-                    if (prevSibling && prevSibling.tagName === 'HR') {
-                        chosenQuestionsDisplay.removeChild(prevSibling);
-                    }
+                    // Removed HR removal logic here as HRs are no longer added
                     chosenQuestionsDisplay.removeChild(item);
                 });
 
@@ -370,7 +367,7 @@
                 if (remainingQuestionDivs.length === 0) {
                     chosenQuestionsDisplay.innerHTML = `<p class="text-gray-500 text-sm">Highlight (tap or click) a question above to add it here, or tap/click again to remove it.</p>`;
                 } else {
-                    // Further cleanup: if the very first element is now an HR (because the first item was removed), remove that HR
+                    // This part is still relevant if there were existing HRs from before the change
                     if (chosenQuestionsDisplay.firstChild && chosenQuestionsDisplay.firstChild.tagName === 'HR') {
                         chosenQuestionsDisplay.removeChild(chosenQuestionsDisplay.firstChild);
                     }
