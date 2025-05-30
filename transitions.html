@@ -311,7 +311,7 @@
                 resultDisplay.innerHTML = resultHTML;
                 addHighlightingAndChooseLogic(resultDisplay);
             }
-            window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top after generating new questions
+            // Removed window.scrollTo({ top: 0, behavior: 'smooth' }); from here
         }
 
         function displayFilteredItems() {
@@ -387,9 +387,14 @@
 
 
         displayRandomItems(); // Display random items on initial load
-        randomizeButton.addEventListener('click', displayRandomItems);
         
-        // Modified to prevent default event behavior
+        // Modified to prevent default event behavior for randomize button
+        randomizeButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default button behavior
+            displayRandomItems();
+        });
+
+        // Modified to prevent default event behavior for search button
         searchButton.addEventListener('click', function(event) {
             event.preventDefault(); // Prevent default button behavior (like form submission that could cause scroll)
             displayFilteredItems();
