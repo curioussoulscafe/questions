@@ -115,7 +115,7 @@
                 <p class="text-gray-500 text-sm">Highlight (tap or click) a question above to add it here, or tap/click again to remove it.</p>
             </div>
             <button id="clear-chosen-button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline w-full mt-4 transition duration-300 ease-in-out">
-                Clear Saved Questions
+                Clear Saves
             </button>
         </div>
     </div>
@@ -203,9 +203,9 @@
         function updateClearButtonText() {
             const highlightedItems = chosenQuestionsDisplay.querySelectorAll('.chosen-item.selected-chosen-item');
             if (highlightedItems.length > 0) {
-                clearChosenButton.textContent = "Clear Selected Questions";
+                clearChosenButton.textContent = "Clear Selected";
             } else {
-                clearChosenButton.textContent = "Clear Saved Questions";
+                clearChosenButton.textContent = "Clear Saves";
             }
         }
 
