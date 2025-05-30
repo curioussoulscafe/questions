@@ -24,7 +24,7 @@
             box-sizing: border-box; /* Include padding and border in the element's total width and height */
         }
 
-        /* Styling for items when hovered (no enlargement, just visual feedback) */
+        /* Styling for items when hovered (only shadow, no enlargement) */
         .item:hover, .chosen-item:hover {
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* More prominent shadow on hover */
         }
@@ -32,21 +32,20 @@
         /* This class is for highlighting the original items when clicked to be chosen */
         .item.selected-item {
             background-color: #00f9ff; /* Changed highlight color to #00f9ff */
-            padding: 1.5rem; /* Enlarge padding on selection */
-            font-size: 1.4rem; /* Enlarge font size on selection */
-            margin-bottom: 1.5rem; /* Increase margin to prevent overlap when enlarged */
-            transform: scale(1.15); /* Keep enlarged when selected */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Keep prominent shadow when selected */
+            padding: 2rem; /* Enlarge padding on selection */
+            font-size: 1.6rem; /* Enlarge font size on selection */
+            margin-bottom: 2rem; /* Increase margin to prevent overlap when enlarged */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* More prominent shadow when selected */
+            /* Removed transform: scale() to prevent visual-only scaling issues */
         }
-
         /* Highlight for chosen items when clicked */
         .chosen-item.selected-chosen-item {
             background-color: yellow; /* Changed highlight color to yellow */
-            padding: 1.5rem; /* Enlarge padding on selection */
-            font-size: 1.4rem; /* Enlarge font size on selection */
-            margin-bottom: 1.5rem; /* Increase margin to prevent overlap when enlarged */
-            transform: scale(1.15); /* Keep enlarged when selected */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Keep prominent shadow when selected */
+            padding: 2rem; /* Enlarge padding on selection */
+            font-size: 1.6rem; /* Enlarge font size on selection */
+            margin-bottom: 2rem; /* Increase margin to prevent overlap when enlarged */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* More prominent shadow when selected */
+            /* Removed transform: scale() to prevent visual-only scaling issues */
         }
 
         /* Styles for the back-to-top button */
@@ -60,7 +59,7 @@
             border-radius: 9999px; /* Full rounded */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             cursor: pointer;
-            display: block; /* Always visible */
+            display: none; /* Hidden by default */
             transition: opacity 0.3s ease-in-out;
             z-index: 1000; /* Ensure it's above other content */
         }
@@ -259,15 +258,6 @@
                     updateClearButtonText(); // Update button text after toggling highlight
                 });
 
-                // Removed the logic to add <hr> before the chosen item
-                // const currentChosenItemCount = Array.from(chosenQuestionsDisplay.children).filter(el => el.tagName === 'DIV').length;
-                // if (currentChosenItemCount > 0) { // If there's at least one item before this new one
-                //     const hr = document.createElement('hr');
-                //     hr.classList.add('border-gray-200', 'my-1');
-                //     chosenQuestionsDisplay.insertBefore(hr, chosenItemDiv); // Insert HR before the new item
-                // }
-
-
                 // Remove the initial placeholder text if present
                 const placeholder = chosenQuestionsDisplay.querySelector('p.text-gray-500');
                 if (placeholder) {
@@ -281,11 +271,6 @@
             const chosenItems = chosenQuestionsDisplay.querySelectorAll('.chosen-item');
             chosenItems.forEach(item => {
                 if (item.textContent === questionText) {
-                    // Removed the logic to remove previous sibling HR
-                    // const prevSibling = item.previousElementSibling;
-                    // if (prevSibling && prevSibling.tagName === 'HR') {
-                    //     chosenQuestionsDisplay.removeChild(prevSibling);
-                    // }
                     chosenQuestionsDisplay.removeChild(item);
                 }
             });
@@ -317,7 +302,7 @@
                 resultDisplay.innerHTML = resultHTML;
                 addHighlightingAndChooseLogic(resultDisplay);
             }
-            window.scrollTo(0, 0); // Scroll to top after generating new questions
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top after generating new questions
         }
 
         function displayFilteredItems() {
@@ -344,7 +329,7 @@
             }
             lastSearchTerm = currentSearchTerm; // Update the last search term
             searchButton.textContent = "Search / Clear Search"; // Change button text after a search
-            window.scrollTo(0, 0); // Scroll to top after displaying search results
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top after displaying search results
         }
 
         // Function to clear saved questions based on highlight or clear all
@@ -354,7 +339,6 @@
             if (highlightedItems.length > 0) {
                 // Clear only highlighted items
                 highlightedItems.forEach(item => {
-                    // Removed HR removal logic here as HRs are no longer added
                     chosenQuestionsDisplay.removeChild(item);
                 });
 
@@ -377,14 +361,13 @@
         });
 
         // Back to Top button functionality
-        // Removed the scroll event listener as the button should always be visible
-        // window.addEventListener('scroll', () => {
-        //     if (window.scrollY > 200) { // Show button after scrolling 200px
-        //         backToTopButton.style.display = 'block';
-        //     } else {
-        //         backToTopButton.style.display = 'none';
-        //     }
-        // });
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 200) { // Show button after scrolling 200px
+                backToTopButton.style.display = 'block';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
 
         backToTopButton.addEventListener('click', () => {
             window.scrollTo({
