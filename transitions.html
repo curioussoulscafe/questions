@@ -75,6 +75,14 @@
         #back-to-top:hover {
             background-color: #805ad5; /* Purple-600 */
         }
+
+        /* Removed minimum height from search results to allow it to collapse */
+        /* #search-results {
+            min-height: 60px;
+        } */
+        #random-result {
+            min-height: 60px; /* Reverted min-height */
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex justify-center items-center min-h-screen p-4">
@@ -115,7 +123,7 @@
                 <p class="text-gray-500 text-sm">Highlight (tap or click) a question above to add it here, or tap/click again to remove it.</p>
             </div>
             <button id="clear-chosen-button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline w-full mt-4 transition duration-300 ease-in-out">
-                Clear Saves
+                Clear Saved Questions
             </button>
         </div>
     </div>
@@ -203,7 +211,7 @@
         function updateClearButtonText() {
             const highlightedItems = chosenQuestionsDisplay.querySelectorAll('.chosen-item.selected-chosen-item');
             if (highlightedItems.length > 0) {
-                clearChosenButton.textContent = "Clear Selected";
+                clearChosenButton.textContent = "Clear Selected"; // Changed to "Clear Selected"
             } else {
                 clearChosenButton.textContent = "Clear Saves";
             }
@@ -311,7 +319,8 @@
                 resultDisplay.innerHTML = resultHTML;
                 addHighlightingAndChooseLogic(resultDisplay);
             }
-            // Removed window.scrollTo({ top: 0, behavior: 'smooth' }); from here
+            // Re-added scroll to top for "Generate Questions!"
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
         }
 
         function displayFilteredItems() {
@@ -388,11 +397,8 @@
 
         displayRandomItems(); // Display random items on initial load
         
-        // Modified to prevent default event behavior for randomize button
-        randomizeButton.addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent default button behavior
-            displayRandomItems();
-        });
+        // Reverted to original behavior for randomize button (allows scroll)
+        randomizeButton.addEventListener('click', displayRandomItems);
 
         // Modified to prevent default event behavior for search button
         searchButton.addEventListener('click', function(event) {
