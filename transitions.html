@@ -388,10 +388,17 @@
 
         displayRandomItems(); // Display random items on initial load
         randomizeButton.addEventListener('click', displayRandomItems);
-        searchButton.addEventListener('click', displayFilteredItems);
-        // Add event listener for Enter key press on the search input
+        
+        // Modified to prevent default event behavior
+        searchButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default button behavior (like form submission that could cause scroll)
+            displayFilteredItems();
+        });
+
+        // Modified to prevent default event behavior for Enter key
         searchInput.addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent default Enter key behavior (like form submission that could cause scroll)
                 displayFilteredItems();
             }
         });
