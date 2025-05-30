@@ -19,17 +19,16 @@
             border: 1px solid #e2e8f0; /* Subtle border */
             border-radius: 0.375rem; /* Rounded corners */
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
-            transition: all 0.2s ease-in-out; /* Smooth transition for hover/selection */
+            transition: all 0.2s ease-in-out; /* Smooth transition for selection */
             cursor: pointer; /* Indicate it's clickable */
         }
-        .item:hover {
-            transform: scale(1.15); /* Enlarge a lot more on hover */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* More prominent shadow on hover */
-        }
+        /* Removed .item:hover styles as per request */
+
         /* This class is for highlighting the original items when clicked to be chosen */
         .item.selected-item {
             background-color: #00f9ff; /* Changed highlight color to #00f9ff */
-            /* Removed transform and box-shadow to ensure enlargement only on hover/active */
+            transform: scale(1.15); /* Enlarge when selected */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* More prominent shadow when selected */
         }
         /* Styling for the chosen items */
         .chosen-item {
@@ -40,17 +39,16 @@
             border: 1px solid #e2e8f0; /* Subtle border */
             border-radius: 0.375rem; /* Rounded corners */
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
-            transition: all 0.2s ease-in-out; /* Smooth transition for hover/selection */
+            transition: all 0.2s ease-in-out; /* Smooth transition for selection */
             cursor: pointer; /* Indicate it's clickable */
         }
-        .chosen-item:hover {
-            transform: scale(1.15); /* Enlarge a lot more on hover */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* More prominent shadow on hover */
-        }
+        /* Removed .chosen-item:hover styles as per request */
+
         /* Highlight for chosen items when clicked */
         .chosen-item.selected-chosen-item {
             background-color: yellow; /* Changed highlight color to yellow */
-            /* Removed transform and box-shadow to ensure enlargement only on hover/active */
+            transform: scale(1.15); /* Enlarge when selected */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* More prominent shadow when selected */
         }
 
         /* Styles for the back-to-top button */
