@@ -211,7 +211,7 @@
         function updateClearButtonText() {
             const highlightedItems = chosenQuestionsDisplay.querySelectorAll('.chosen-item.selected-chosen-item');
             if (highlightedItems.length > 0) {
-                clearChosenButton.textContent = "Clear Selected"; // Changed to "Clear Selected"
+                clearChosenButton.textContent = "Clear Selected";
             } else {
                 clearChosenButton.textContent = "Clear Saves";
             }
@@ -319,8 +319,7 @@
                 resultDisplay.innerHTML = resultHTML;
                 addHighlightingAndChooseLogic(resultDisplay);
             }
-            // Re-added scroll to top for "Generate Questions!"
-            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+            // Removed window.scrollTo({ top: 0, behavior: 'smooth' }); from here
         }
 
         function displayFilteredItems() {
@@ -397,8 +396,11 @@
 
         displayRandomItems(); // Display random items on initial load
         
-        // Reverted to original behavior for randomize button (allows scroll)
-        randomizeButton.addEventListener('click', displayRandomItems);
+        // Modified to prevent default event behavior for randomize button
+        randomizeButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default button behavior
+            displayRandomItems();
+        });
 
         // Modified to prevent default event behavior for search button
         searchButton.addEventListener('click', function(event) {
