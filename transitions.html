@@ -35,6 +35,7 @@
             padding: 1.5rem; /* Enlarge padding on selection */
             font-size: 1.4rem; /* Enlarge font size on selection */
             margin-bottom: 1.5rem; /* Increase margin to prevent overlap when enlarged */
+            transform: scale(1.15); /* Keep enlarged when selected */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Keep prominent shadow when selected */
         }
 
@@ -44,6 +45,7 @@
             padding: 1.5rem; /* Enlarge padding on selection */
             font-size: 1.4rem; /* Enlarge font size on selection */
             margin-bottom: 1.5rem; /* Increase margin to prevent overlap when enlarged */
+            transform: scale(1.15); /* Keep enlarged when selected */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Keep prominent shadow when selected */
         }
 
@@ -58,7 +60,7 @@
             border-radius: 9999px; /* Full rounded */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             cursor: pointer;
-            display: none; /* Hidden by default */
+            display: block; /* Always visible */
             transition: opacity 0.3s ease-in-out;
             z-index: 1000; /* Ensure it's above other content */
         }
@@ -315,6 +317,7 @@
                 resultDisplay.innerHTML = resultHTML;
                 addHighlightingAndChooseLogic(resultDisplay);
             }
+            window.scrollTo(0, 0); // Scroll to top after generating new questions
         }
 
         function displayFilteredItems() {
@@ -341,6 +344,7 @@
             }
             lastSearchTerm = currentSearchTerm; // Update the last search term
             searchButton.textContent = "Search / Clear Search"; // Change button text after a search
+            window.scrollTo(0, 0); // Scroll to top after displaying search results
         }
 
         // Function to clear saved questions based on highlight or clear all
@@ -373,13 +377,14 @@
         });
 
         // Back to Top button functionality
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 200) { // Show button after scrolling 200px
-                backToTopButton.style.display = 'block';
-            } else {
-                backToTopButton.style.display = 'none';
-            }
-        });
+        // Removed the scroll event listener as the button should always be visible
+        // window.addEventListener('scroll', () => {
+        //     if (window.scrollY > 200) { // Show button after scrolling 200px
+        //         backToTopButton.style.display = 'block';
+        //     } else {
+        //         backToTopButton.style.display = 'none';
+        //     }
+        // });
 
         backToTopButton.addEventListener('click', () => {
             window.scrollTo({
