@@ -7,6 +7,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --highlight-color: #00f9ff; /* Default or initial color, will be overridden by JS */
+        }
         body {
             font-family: 'Inter', sans-serif;
         }
@@ -26,7 +29,7 @@
 
         /* This class is for highlighting the original items when clicked to be chosen */
         .item.selected-item {
-            background-color: #00f9ff; /* Changed highlight color to #00f9ff */
+            background-color: var(--highlight-color); /* Uses CSS variable for dynamic highlight */
             padding: 1rem; /* Slightly larger padding on selection (was 1.25rem) */
             font-size: 1.35rem; /* Slightly larger font size on selection */
             margin-bottom: 1rem; /* Adjusted margin to prevent overlap when enlarged */
@@ -50,7 +53,7 @@
 
         /* Highlight for chosen items when clicked */
         .chosen-item.selected-chosen-item {
-            background-color: yellow; /* Changed highlight color to yellow */
+            background-color: var(--highlight-color); /* Uses CSS variable for dynamic highlight */
             padding: 1rem; /* Slightly larger padding on selection (was 1.25rem) */
             font-size: 1.35rem; /* Slightly larger font size on selection */
             margin-bottom: 1rem; /* Adjusted margin to prevent overlap when enlarged */
@@ -176,13 +179,13 @@
             "What words or phrases (e.g., “release,” “rebirth,” or “limbo”) seem to capture the essence of transitions? Why might these resonate for people?",
             "What rituals (e.g., journaling, walks, creating art) might help people honor transitions instead of rushing through them?",
             "Can you think of a moment of upheaval (like a move, loss, or leap of faith) that revealed a hidden path someone hadn\'t seen before?",
-            "Transitions remind us that nothing stays the same. What\'s something temporary you\'ve learned to appreciate more deeply?",
+            "Transitions remind us that nothing stays multicellular. What\'s something temporary you\'ve learned to appreciate more deeply?",
             "How might practicing humility, embracing doubt, and staying curious help people navigate the uncertainty and unpredictability of transitions?",
             "Sometimes, small changes happen gradually before a big transition occurs. Have you ever missed the signs of coming change, only to be surprised later? How might paying attention to subtle shifts prepare you for future transitions?",
             "Some say that \'nothing gets better until you change\'. How much do you believe that your personal attitude or internal approach to change is the biggest factor in successfully navigating a transition?",
             "Life often involves stepping into the unknown. Can you think of examples where a major change required letting go of certainty? What lessons might that teach?",
             "How do you think people find patience or resilience during uncertain transitions? Are there examples where “waiting it out” brought clarity or resolution?",
-            "How might someone guard against using “growth” or “self-improvement” as a way to avoid sitting with hard emotions during transitions?",
+            "How might someone guard against using “growth” or “self-improvement” as a way to sit with hard emotions during transitions?",
             "What excites you about the idea of change, and what do you think might scare people about it? How could those feelings be balanced?",
             "What do you think people might hope to leave behind as they move into a new phase of life? What might they want to carry forward?",
             "If you were to write a letter to your past self navigating a major transition, what wisdom would you share? What questions might you ask your future self?",
@@ -204,6 +207,13 @@
 
         let lastSearchTerm = ""; // Variable to store the last search term
         let availableRandomItems = [...itemList]; // Initialize available items for random selection
+
+        // Define the list of highlight colors
+        const highlightColors = ["#57FCFF", "#FFFFAD", "#FFC6C6"]; // Updated highlight colors
+
+        // Pick a random highlight color on load and apply it to the CSS variable
+        const randomHighlightColor = highlightColors[Math.floor(Math.random() * highlightColors.length)];
+        document.documentElement.style.setProperty('--highlight-color', randomHighlightColor);
 
         // Display total number of questions on load
         totalQuestionsSpan.textContent = `(Total: ${itemList.length})`;
